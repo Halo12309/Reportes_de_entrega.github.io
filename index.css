@@ -235,16 +235,19 @@ canvas {
   margin-top: 12px;
 }
 
+/* ━━━ 2 IMÁGENES POR FILA (pantalla y PDF) ━━━━━━━━
+   Cambia height para ajustar el tamaño visual
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
 .foto-card {
-  /* Responsivo: 1 col en móvil, 2 en tablet, 3 en desktop */
-  width: calc(100% - 2px);
+  width: calc(50% - var(--gap));   /* 2 por fila siempre */
   text-align: center;
 }
 
 .foto-card img {
   width: 100%;
- 
-  object-fit: cover;
+  height: 450px;                   /* ← altura en pantalla */
+  object-fit: contain;
+  background: #f5f5f5;
   border: 1px solid #ccc;
   border-radius: var(--radius);
 }
@@ -269,63 +272,52 @@ canvas {
 /* Tablet (≥ 600 px) */
 @media (min-width: 600px) {
   body { padding: 20px; }
-
   .logo-wrapper img { max-width: 280px; }
-
-  .foto-card {
-    width: calc(50% - var(--gap));
-  }
-
   canvas { height: 160px !important; }
+  /* foto-card ya es 50% desde arriba, no se sobreescribe */
 }
 
 /* Laptop (≥ 900 px) */
 @media (min-width: 900px) {
   body { padding: 24px; }
-
-  .foto-card {
-    width: calc(33.33% - var(--gap));
-  }
-
   canvas { height: 170px !important; }
-
   #tabla1 td:first-child { width: 120px; }
+  /* foto-card se mantiene en 2 columnas */
 }
 
 /* Escritorio (≥ 1200 px) */
 @media (min-width: 1200px) {
   .w3-content { padding: 32px; }
-
-  .foto-card {
-    width: calc(25% - var(--gap));
-  }
+  /* foto-card se mantiene en 2 columnas */
 }
 
-/* Pantallas muy pequeñas (< 420 px) */
+/* Pantallas muy pequeñas (< 420 px) — 1 imagen por fila */
 @media (max-width: 420px) {
   #tabla1 {
     display: block;
     overflow-x: auto;
   }
-
   #tabla1 tr {
     display: flex;
     flex-wrap: wrap;
   }
-
   #tabla1 td {
     flex: 1 1 100%;
   }
-
   .acciones { flex-direction: column; align-items: center; }
-
   .firmas-row { gap: 16px; }
+
+  .foto-card {
+    width: 100%;           /* en móvil muy pequeño, 1 por fila */
+  }
+  .foto-card img {
+    height: 300px;
+  }
 }
 
-
+/* ── Impresión ───────────────────────────────────── */
 @media print {
 
-  /* Ocultar botones que no sirven al imprimir */
   button,
   input[type="file"],
   .no_print,
@@ -333,7 +325,6 @@ canvas {
     display: none !important;
   }
 
-  /* Sin sombras ni fondo gris */
   body {
     background: #fff !important;
     padding: 0 !important;
@@ -345,14 +336,12 @@ canvas {
     max-width: 100% !important;
   }
 
-  /* Evitar que las filas de técnicos se corten */
   #tabla1 tr,
   #fila-tecnicos td {
     page-break-inside: avoid;
     break-inside: avoid;
   }
 
-  /* Las celdas de técnicos no recortan el texto */
   #fila-tecnicos td,
   #tabla1 td {
     white-space: normal !important;
@@ -360,29 +349,39 @@ canvas {
     overflow: visible !important;
   }
 
-  /* Forzar que la tabla de materiales
-     NUNCA se divida entre páginas */
   #tabla-materiales {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
 
-  /* Cada fila de materiales tampoco se corta */
   #tabla-materiales tr {
     page-break-inside: avoid !important;
     break-inside: avoid !important;
   }
 
-  /* Canvas: mostrar como imagen estática */
   canvas {
     border: 1px solid #999 !important;
   }
 
-  /* Fotos: max 2 por fila al imprimir */
-  .foto-card {
-    width: 45% !important;
+  /* 2 fotos por hoja al imprimir */
+  .foto-preview {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
   }
 
+  .foto-card {
+    width: 100% !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .foto-card img {
+    width: 100% !important;
+    height: 500px !important;    /* ← altura en PDF */
+    object-fit: contain !important;
+    background: #f5f5f5 !important;
+  }
 }
 
 .oculto {
