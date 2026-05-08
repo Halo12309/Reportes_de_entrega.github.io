@@ -6,7 +6,7 @@
   <title>Vixomedia — Reporte de servicio</title>
   <link rel="shortcut icon" href="logo.jpeg">
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/5/w3.css">
-  <link rel="stylesheet" href="estilos.css">
+  <link rel="stylesheet" href="index.css">
 </head>
 <body>
 
@@ -18,16 +18,19 @@
       <img src="vixomedia.jpg" alt="Vixomedia" class="w3-round w3-image">
     </div>
 
-    <form class="w3-container folio-form">
+    <div class="w3-container folio-form">
       <p>
         <label>Folio:</label>
         <input class="w3-input" type="number" placeholder="0000">
       </p>
       <p>
         <label>No. cotización:</label>
-        <input class="w3-input" type="text" placeholder="COT-0000">
+        <!-- FIX 1: Limitado a 6 caracteres alfanuméricos -->
+        <input class="w3-input" type="text" placeholder="COT-00" maxlength="6"
+               pattern="[A-Za-z0-9]{1,6}" title="Máximo 6 caracteres alfanuméricos"
+               oninput="this.value = this.value.replace(/[^A-Za-z0-9]/g,'').slice(0,6)">
       </p>
-    </form>
+    </div>
   </div>
 
   <!-- ── Datos del cliente ─────────────────────────── -->
@@ -45,7 +48,9 @@
         <td><input class="w3-input" type="text"></td>
         <td></td>
         <td class="w3-center">Teléfono:</td>
-        <td><input class="w3-input" type="number"></td>
+        <!-- FIX 2: Teléfono limitado a 10 dígitos -->
+        <td><input class="w3-input" type="tel" maxlength="10" placeholder="10 dígitos"
+                   oninput="this.value = this.value.replace(/\D/g,'').slice(0,10)"></td>
       </tr>
       <tr>
         <td class="w3-center">Solicita:</td>
@@ -69,7 +74,9 @@
       </tr>
       <tr>
         <td class="w3-center">Celular:</td>
-        <td><input class="w3-input" type="number"></td>
+        <!-- FIX 3: Celular también limitado a 10 dígitos -->
+        <td><input class="w3-input" type="tel" maxlength="10" placeholder="10 dígitos"
+                   oninput="this.value = this.value.replace(/\D/g,'').slice(0,10)"></td>
         <td></td>
         <td class="w3-center">Fecha de entrega:</td>
         <td><input class="w3-input" type="date"></td>
@@ -167,15 +174,17 @@
       </td>
     </tr>
   </table>
-      <!-- ── Botón imprimir ──────────────────────── -->
-  <div style="text-align:center; margin: 20px 0;">
-  <button onclick="window.print()" class="w3-button w3-round" 
-    style="background:#1a1a2e; color:#fff; padding:12px 36px; font-size:1rem; letter-spacing:.5px;">
-    ⬇ Descargar PDF
-  </button>
-</div>
-  </div><!-- /w3-content -->
 
-<script src="script.js"></script>
+  <!-- ── Botón imprimir ──────────────────────── -->
+  <div style="text-align:center; margin: 20px 0;">
+    <button onclick="window.print()" class="w3-button w3-round"
+      style="background:#1a1a2e; color:#fff; padding:12px 36px; font-size:1rem; letter-spacing:.5px;">
+      ⬇ Descargar PDF
+    </button>
+  </div>
+
+</div><!-- /w3-content -->
+
+<script src="index.js"></script>
 </body>
 </html>
