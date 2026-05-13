@@ -21,12 +21,12 @@
     <div class="w3-container folio-form">
       <p>
         <label>Folio:</label>
-        <input class="w3-input" type="number" placeholder="0000">
+        <input id="num-reporte" class="w3-input" type="number" placeholder="0000">
       </p>
       <p>
         <label>No. cotización:</label>
         <!-- FIX 1: Limitado a 6 caracteres alfanuméricos -->
-        <input class="w3-input" type="text" placeholder="COT-00" maxlength="6"
+        <input id="num-cotizacion" class="w3-input" type="text" placeholder="COT-00" maxlength="6"
                pattern="[A-Za-z0-9]{1,6}" title="Máximo 6 caracteres alfanuméricos"
                oninput="this.value = this.value.replace(/[^A-Za-z0-9]/g,'').slice(0,6)">
       </p>
@@ -37,8 +37,8 @@
   <div class="tabla-scroll">
     <table id="tabla1" class="w3-table w3-striped w3-hoverable w3-white">
       <tr>
-        <td class="w3-center">Fecha de llenado:</td>
-        <td><input class="w3-input" type="date"></td>
+        <td id = "fecha" class="w3-center">Fecha de llenado:</td>
+        <td><input id="fecha_llenado" class="w3-input" type="date"></td>
         <td></td>
         <td></td>
         <td></td>
@@ -177,7 +177,7 @@
 
   <!-- ── Botón imprimir ──────────────────────── -->
   <div style="text-align:center; margin: 20px 0;">
-    <button onclick="window.print()" class="w3-button w3-round"
+    <button onclick="imprimir()" class="w3-button w3-round"
       style="background:#1a1a2e; color:#fff; padding:12px 36px; font-size:1rem; letter-spacing:.5px;">
       ⬇ Descargar PDF
     </button>

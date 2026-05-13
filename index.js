@@ -214,7 +214,7 @@
     
 
 
-    function imprimir() {
+   /* function imprimir() {
   // Guardar valores de inputs y textareas antes de imprimir
   // (algunos navegadores los pierden al restaurar)
   const valores = [];
@@ -228,4 +228,62 @@
   setTimeout(() => {
     valores.forEach(({ el, value }) => { el.value = value; });
   }, 500);
+} */
+/*function imprimir() {
+  // Guardar valores de inputs y textareas antes de imprimir
+  const valores = [];
+  document.querySelectorAll('input, textarea').forEach(el => {
+    valores.push({ el, value: el.value });
+  });
+
+  // --- NOMBRE DEL PDF ---
+  // Cambia estos IDs por los de tus campos
+  const campo1 = document.getElementById('num-reporte')?.value.trim() || '';
+  const campo2 = document.getElementById('num-cotizacion')?.value.trim() || '';
+  const campo3 = document.getElementById('fecha_llenado')?.value.trim() || '';
+
+  const partes = [campo1, campo2, campo3].filter(Boolean);
+  const nombreArchivo = partes.length > 0
+    ? partes.join('_').replace(/\s+/g, '_')
+    : 'Reporte';
+
+  const tituloOriginal = document.title;
+  document.title = nombreArchivo;
+  // ----------------------
+
+  window.print();
+
+  // Restaurar título e inputs
+  setTimeout(() => {
+    document.title = tituloOriginal;
+    valores.forEach(({ el, value }) => { el.value = value; });
+  }, 1000);
+} */
+
+  function imprimir() {
+  const valores = [];
+  document.querySelectorAll('input, textarea').forEach(el => {
+    valores.push({ el, value: el.value });
+  });
+
+  const campo1 = document.getElementById('num-reporte')?.value.trim() || '';
+  const campo2 = document.getElementById('num-cotizacion')?.value.trim() || '';
+  const fechaRaw = document.getElementById('fecha_llenado')?.value || '';
+  const campo3 = fechaRaw ? fechaRaw.split('-').reverse().join('-') : '';
+
+  const partes = [campo1, campo2, campo3].filter(Boolean);
+  const nombreArchivo = partes.length > 0
+    ? partes.join('_').replace(/\s+/g, '_')
+    : 'Reporte';
+
+  const tituloOriginal = document.title;
+  document.title = nombreArchivo;
+
+  setTimeout(() => {          // ← espera 200ms antes de abrir el diálogo
+    window.print();
+    setTimeout(() => {
+      document.title = tituloOriginal;
+      valores.forEach(({ el, value }) => { el.value = value; });
+    }, 1000);
+  }, 200);
 }
