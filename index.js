@@ -110,32 +110,39 @@
       alert('✅ Documento firmado correctamente.\n\nEn producción, las firmas se enviarían al servidor como imágenes Base64.'); 
     }   
 
-    function mostrarFotos(input) {
-      const preview = document.getElementById('fotoPreview');
-      preview.innerHTML = '';
+   function mostrarFotos(input) {
+  const preview = document.getElementById('fotoPreview');
+  preview.innerHTML = '';
 
-      if (!input.files) {
-        return;
-      }
+  if (!input.files) return;
 
-      Array.from(input.files).forEach((file) => {
-        if (!file.type.startsWith('image/')) {
-          return;
-        }
+  Array.from(input.files).forEach((file, index) => {
+    if (!file.type.startsWith('image/')) return;
 
-        const reader = new FileReader();
-        reader.onload = () => {
-          const container = document.createElement('div');
-          container.className = 'foto-card';
-          container.innerHTML = `
-            <img src="${reader.result}" alt="${file.name}">
-            <p>${file.name}</p>
-          `;
-          preview.appendChild(container);
-        };
-        reader.readAsDataURL(file);
-      });
-    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      const container = document.createElement('div');
+      container.className = 'foto-card';
+
+      // Cada imagen genera su propio input usando el índice
+      container.innerHTML = `
+        <img src="${reader.result}" alt="${file.name}">
+        <p>${file.name}</p>
+        <input 
+          type="text" 
+          id="descripcion_${index}" 
+          name="descripcion_${index}"
+          class="w3-input" 
+          placeholder="Descripción de la foto ${index + 1}"
+        >
+      `;
+
+      preview.appendChild(container);
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
 
     function tenicos() {
   const filaBoton = document.getElementById("fila-tecnicos");
